@@ -64,6 +64,7 @@ class Assistant(Agent):
                 close_application,
                 open_pdf_in_folder,
                 capture_photo,
+                send_whatsapp_message,
                 thinking_capability,
                 Play_file,
 
