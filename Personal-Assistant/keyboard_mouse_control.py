@@ -6,7 +6,6 @@ from pynput.keyboard import Key, Controller as KeyboardController
 from pynput.mouse import Button, Controller as MouseController
 from typing import List
 from livekit.agents import function_tool
-from langchain.tools import tool
 import codecs
 
 # ---------------------
@@ -173,7 +172,7 @@ async def with_temporary_activation(fn, *args, **kwargs):
     controller.deactivate()
     return result
 
-@tool
+@function_tool
 async def move_cursor_tool(direction: str, distance: int = 100):
 
     """
@@ -193,7 +192,7 @@ async def move_cursor_tool(direction: str, distance: int = 100):
 
     return await with_temporary_activation(controller.move_cursor, direction, distance)
 
-@tool
+@function_tool
 async def mouse_click_tool(button: str = "left"):
 
     """
@@ -216,7 +215,7 @@ async def mouse_click_tool(button: str = "left"):
 
     return await with_temporary_activation(controller.mouse_click, button)
 
-@tool
+@function_tool
 async def scroll_cursor_tool(direction: str, amount: int = 10):
 
     """
@@ -239,7 +238,7 @@ async def scroll_cursor_tool(direction: str, amount: int = 10):
 
     return await with_temporary_activation(controller.scroll_cursor, direction, amount)
 
-@tool
+@function_tool
 async def type_text_tool(text: str):
 
     """
@@ -255,7 +254,7 @@ async def type_text_tool(text: str):
     """
     return await with_temporary_activation(controller.type_text, text)
 
-@tool
+@function_tool
 async def press_key_tool(key: str):
 
     """
@@ -273,7 +272,7 @@ async def press_key_tool(key: str):
 
     return await with_temporary_activation(controller.press_key, key)
 
-@tool
+@function_tool
 async def press_hotkey_tool(keys: List[str]):
 
     """
@@ -292,7 +291,7 @@ async def press_hotkey_tool(keys: List[str]):
 
     return await with_temporary_activation(controller.press_hotkey, keys)
 
-@tool
+@function_tool
 async def control_volume_tool(action: str):
 
     """
@@ -311,7 +310,7 @@ async def control_volume_tool(action: str):
 
     return await with_temporary_activation(controller.control_volume, action)
 
-@tool
+@function_tool
 async def swipe_gesture_tool(direction: str):
 
     """
@@ -329,4 +328,3 @@ async def swipe_gesture_tool(direction: str):
 
 
     return await with_temporary_activation(controller.swipe_gesture, direction)
-

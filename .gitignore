@@ -1,0 +1,8 @@
+.venv313
+.venv
+.env
+Personal-Assistant/.env
+Personal-Assistant/__pycache__/
+__pycache__/
+control_log.txt
+*.pyc

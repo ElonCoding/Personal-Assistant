@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from livekit import agents
 from livekit.agents import Agent, AgentSession, RoomInputOptions
 from livekit.plugins import google, noise_cancellation
-from livekit.plugins.google.realtime import types  # Import types for audio modalities
+from google.genai import types  # Import types for audio modalities
 
 # Import your prompt and tool modules (ensure correct filenames and locations)
 from jarvis_prompt import behavior_prompt, Reply_prompts, get_current_city
@@ -25,6 +25,9 @@ from keyboard_mouse_control import (
     move_cursor_tool, mouse_click_tool, scroll_cursor_tool, type_text_tool,
     press_key_tool, press_hotkey_tool, control_volume_tool, swipe_gesture_tool,
 )
+
+from jarvis_reasoning import thinking_capability
+from Jarvis_file_opner import Play_file
 
 load_dotenv()
 
@@ -61,6 +64,8 @@ class Assistant(Agent):
                 close_application,
                 open_pdf_in_folder,
                 capture_photo,
+                thinking_capability,
+                Play_file,
 
               
 
@@ -85,7 +90,10 @@ async def entrypoint(ctx: agents.JobContext):
         current_date = await get_formatted_datetime()
         current_city = await get_current_city()
 
-        llm = google.realtime.RealtimeModel(voice="charon")
+        llm = google.realtime.RealtimeModel(
+            voice="charon",
+            modalities=[types.Modality.AUDIO],
+        )
 
         session = AgentSession(
             llm=llm,
@@ -97,7 +105,6 @@ async def entrypoint(ctx: agents.JobContext):
             agent=Assistant(current_date=current_date, current_city=current_city),
             room_input_options=RoomInputOptions(
                 noise_cancellation=noise_cancellation.BVC(),
-                audio_output=types.Modality.AUDIO,  # Enable voice output!
             ),
         )
 

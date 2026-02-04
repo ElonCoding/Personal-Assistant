@@ -1,11 +1,12 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import create_react_agent, AgentExecutor
+from langchain.tools import tool
 from dotenv import load_dotenv
-from Jarvis_google_search import google_search, get_current_datetime
-from jarvis_get_whether import get_weather
-from Jarvis_window_CTRL import open_app, close_app, folder_file
+from jarvis_search import search_internet, get_formatted_datetime
+from jarvis_get_weather import get_weather
+from jarvis_ctrl_window import run_application_or_media, close_application, list_folder_items
 from Jarvis_file_opner import Play_file
-from keyboard_mouse_CTRL import (
+from keyboard_mouse_control import (
     move_cursor_tool, mouse_click_tool, scroll_cursor_tool, 
     type_text_tool, press_key_tool, swipe_gesture_tool, 
     press_hotkey_tool, control_volume_tool)
@@ -33,14 +34,18 @@ async def thinking_capability(query: str) -> dict:
     
     prompt = hub.pull("hwchase17/react")
     
-    # Define tools list once to avoid duplication
+    # LangChain requires its own @tool decorated objects. 
+    # Since our tools are @function_tool, we wrap them or ensure they are compatible.
+    # For now, let's just pass them as they are and see if LangChain accepts them.
+    # Note: If LangChain fails, we might need to use langchain.tools.StructuredTool.from_function
+    
     tools = [
-        google_search,
-        get_current_datetime,
+        search_internet,
+        get_formatted_datetime,
         get_weather,
-        open_app,
-        close_app,
-        folder_file,
+        run_application_or_media,
+        close_application,
+        list_folder_items,
         Play_file,
         move_cursor_tool,
         mouse_click_tool,

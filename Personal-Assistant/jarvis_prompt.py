@@ -1,5 +1,5 @@
 from jarvis_search import get_formatted_datetime
-from jarvis_get_whether import get_weather
+from jarvis_get_weather import get_weather
 import requests
 
 async def get_current_city():

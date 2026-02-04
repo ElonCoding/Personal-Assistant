@@ -3,7 +3,6 @@ import requests
 import logging
 from dotenv import load_dotenv
 from livekit.agents import function_tool  
-from langchain.tools import tool
 
 load_dotenv()
 
@@ -19,7 +18,7 @@ async def get_current_city():
     except Exception as e:
         return "Unknown"
 
-@tool
+@function_tool
 async def get_weather(city: str = "") -> str:
 
     """

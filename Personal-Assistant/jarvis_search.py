@@ -15,9 +15,9 @@ logging.basicConfig(
 
 load_dotenv()
 
-# ✅ Correct way to get keys (you can later replace with os.getenv)
-GOOGLE_SEARCH_API_KEY = .............
-SEARCH_ENGINE_ID = .........
+# ✅ Correct way to get keys
+GOOGLE_SEARCH_API_KEY = os.getenv("GOOGLE_SEARCH_API_KEY")
+SEARCH_ENGINE_ID = os.getenv("SEARCH_ENGINE_ID")
 
 @function_tool
 async def search_internet(query: str) -> str:

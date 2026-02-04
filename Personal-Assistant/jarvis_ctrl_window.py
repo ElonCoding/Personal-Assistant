@@ -322,6 +322,24 @@ async def open_common_app(app: str, query: Optional[str] = None) -> Dict[str, An
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
+@function_tool
+async def close_application(app_name: str) -> Dict[str, Any]:
+    """Close a running application by its name (e.g., 'chrome', 'notepad')."""
+    try:
+        # Use taskkill to close the application
+        # /IM specifies the image name, /F forces closure, /T closes child processes
+        if not app_name.lower().endswith(".exe"):
+            app_name += ".exe"
+        
+        res = await _run_async(["taskkill", "/F", "/IM", app_name, "/T"])
+        if res.get("returncode") == 0:
+            return {"ok": True, "closed": app_name}
+        else:
+            return {"ok": False, "error": res.get("stderr") or res.get("stdout")}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+
 # ---------------------------------------------
 # Camera: capture a photo
 # ---------------------------------------------
